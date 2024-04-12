@@ -1,4 +1,3 @@
-import fs from "fs";
 import CustomHttpError from "../exceptions/CustomHttpError";
 import User from "./user.model";
 import bcrypt from "bcryptjs";
@@ -15,7 +14,7 @@ class userService {
     return user;
   }
 
-  async createUser({ username, password }) {
+  async createUser({ username, password, userRole = "employee" }) {
     const candidateByusername = await User.findOne({ username });
     if (candidateByusername) {
       throw new CustomHttpError(`This username (${username}) already exist`, 409);
@@ -24,6 +23,7 @@ class userService {
 
     const user = await User.create({
       username,
+      userRole,
       password,
     });
     await user.save();

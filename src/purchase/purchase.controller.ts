@@ -5,7 +5,6 @@ class PurchaseController {
     try {
       const { productIds, totalPrice, userId } = req.body;
       const { username } = req.body.user.payload;
-      console.log(req.body.user, "ffff");
       const purchase = await PurchaseService.createPurchase({
         username,
         userId,
@@ -29,7 +28,7 @@ class PurchaseController {
 
   async getPurchasesByUserId(req, res, next) {
     try {
-      const { userId } = req.params;
+      const { id: userId } = req.params;
       const purchases = await PurchaseService.getPurchasesByUserId(userId);
       res.status(200).json(purchases);
     } catch (e) {

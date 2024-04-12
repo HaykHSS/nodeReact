@@ -5,7 +5,7 @@ import tokenService from "../token/token.service";
 import userService from "../user/user.service";
 
 class authService {
-  async registration({ username, password }) {
+  async registration({ username, password, userRole = "employee" }) {
     const candidateByusername = await User.findOne({ username });
     if (candidateByusername) {
       throw new CustomHttpError(
@@ -18,6 +18,7 @@ class authService {
     const user = await userService.createUser({
       username,
       password: hashpassword,
+      userRole,
     });
 
     return {

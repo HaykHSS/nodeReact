@@ -1,12 +1,6 @@
-export const generateRandomProducts = (count: number) => {
-    const products = [];
-    for (let i = 0; i < count; i++) {
-      products.push({
-        id: i,
-        label: `Product ${i + 1}`,
-        price: Math.floor(Math.random() * 100) + 1, // Random price between 1 and 100
-        isInBasket: false
-      });
-    }
-    return products;
+  export const formatDate = (date: Date) => {
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
   };

@@ -30,7 +30,6 @@ const Products = () => {
   const saveEdit = async (productId: string) => {
     try {
       await updateProduct(productId, editedName, parseInt(editedPrice));
-      // Here you could refresh the list of products or update the state directly
       getProducts();
       setEditProductId(null);
     } catch (e) {

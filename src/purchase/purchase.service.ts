@@ -34,7 +34,10 @@ class PurchaseService {
 
   async getPurchasesByUserId(userId) {
     try {
-      const purchases = await Purchase.find({ userId });
+      const purchases = await Purchase.find({ userId }).populate({
+        path: "products",
+        select: "productName",
+      });
       return purchases;
     } catch (e) {
       throw new CustomHttpError("Purchases not found", 404);

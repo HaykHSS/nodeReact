@@ -25,7 +25,6 @@ class AuthValidator {
     }
   }
   async isAdmin(req, res, next) {
-    console.log(req.body.user);
     if (req.body.user.payload.userRole !== "admin") {
       next(new CustomHttpError("Unauthorized - need admin permissions", 403));
       return;

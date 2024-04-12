@@ -1,4 +1,3 @@
-// App.tsx
 import BuyersHistory from "@/components/admin/BuyersHistory";
 import Basket from "@/components/employee/Basket";
 import ProductList from "@/components/employee/ProductList";

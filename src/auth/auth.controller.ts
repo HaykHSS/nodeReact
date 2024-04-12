@@ -8,11 +8,12 @@ class authController {
     next: NextFunction
   ) {
     try {
-      const { username, password } = req.body;
+      const { username, password, asAdmin } = req.body;
 
       const userData = await authService.registration({
         username,
         password,
+        ...(asAdmin && {userRole: 'admin'})
       });
 
       return res.status(201).json({

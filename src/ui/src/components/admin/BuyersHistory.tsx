@@ -1,13 +1,8 @@
 import AuthStore from "@/store/AuthStore";
 import { IProduct } from "@/store/ProductsStore";
+import { formatDate } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 
-const formatDate = (date: Date) => {
-  const day = date.getDate().toString().padStart(2, "0");
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // JS months are zero-indexed
-  const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-};
 
 interface IPurchase {
   _id: string;

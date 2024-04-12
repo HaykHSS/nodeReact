@@ -25,8 +25,6 @@ app.use("/api/purchase", purchaseRouter);
 app.get("*", (req, res) => {
   res.sendFile(indexPath, (err) => {
     if (err) {
-      // Handle error
-      console.error("Error sending index.html:", err);
       res.status(500).send("Internal Server Error");
     }
   });

@@ -3,7 +3,7 @@ import { IProductModel } from "../product/product.model";
 import IPurchaseModel from "./purchase.interface";
 
 const purchaseSchema = new Schema<IPurchaseModel>({
-  userId: { type: Number, required: true },
+  userId: { type: Schema.Types.ObjectId, required: true },
   username: { type: String, required: true },
   iat: { type: Date, required: true },
   totalPrice: { type: Number, required: true },
