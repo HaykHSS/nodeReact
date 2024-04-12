@@ -28,7 +28,7 @@ const LoginRegister = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center h-full gap-8"
+      className="flex flex-col justify-center items-center h-svh gap-8"
     >
       {location.pathname === "/login" && <h1 className="text-3xl">Login</h1>}
       {location.pathname === "/register" && (
