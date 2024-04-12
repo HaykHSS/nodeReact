@@ -1,4 +1,5 @@
 // App.tsx
+import BuyersHistory from "@/components/admin/BuyersHistory";
 import Basket from "@/components/employee/Basket";
 import ProductList from "@/components/employee/ProductList";
 import AuthStore from "@/store/AuthStore";
@@ -42,6 +43,9 @@ const App: React.FC = () => {
             basketItems={basketItems}
             handleDrop={handleDropAction}
           />
+        </div>
+        <div>
+          <BuyersHistory type="employee" />
         </div>
       </div>
     </DndProvider>

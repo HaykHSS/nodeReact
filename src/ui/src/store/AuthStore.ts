@@ -22,14 +22,18 @@ async function loginUser(username: string, password: string) {
   }
 }
 
-async function registerUser(username: string, password: string) {
+async function registerUser(
+  username: string,
+  password: string,
+  asAdmin: boolean
+) {
   try {
     const response = await fetch("/api/auth/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password , asAdmin}),
     });
 
     if (!response.ok) {
@@ -49,7 +53,11 @@ interface AuthState {
   accessToken: string | null;
   userRole: string | null;
   loginHandler: (userId: string, accessToken: string) => Promise<void>;
-  registerHandler: (username: string, password: string) => Promise<void>;
+  registerHandler: (
+    username: string,
+    password: string,
+    asAdmin: boolean
+  ) => Promise<void>;
   logoutHandler: () => void;
 }
 
@@ -65,7 +73,6 @@ const AuthStore = create<AuthState>((set) => ({
         user: { id: userId, userRole },
         accessToken,
       } = res.value;
-      console.log(res);
 
       set({ userId, accessToken, userRole });
 
@@ -80,15 +87,18 @@ const AuthStore = create<AuthState>((set) => ({
       localStorage.removeItem("userRole");
     }
   },
-  registerHandler: async (username: string, password: string) => {
+  registerHandler: async (
+    username: string,
+    password: string,
+    asAdmin: boolean
+  ) => {
     try {
-      await registerUser(username, password);
+      await registerUser(username, password, asAdmin);
       const res = await loginUser(username, password);
       const {
         user: { id: userId, userRole },
         accessToken,
       } = res.value;
-      console.log(userId, accessToken);
 
       set({ userId, accessToken, userRole });
 

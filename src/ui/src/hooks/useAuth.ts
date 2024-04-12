@@ -16,8 +16,8 @@ const useAuth = () => {
     await loginHandler(username, password);
   };
 
-  const register = async (username: string, password: string) => {
-    await registerHandler(username, password);
+  const register = async (username: string, password: string, asAdmin: boolean) => {
+    await registerHandler(username, password , asAdmin);
   };
 
   return {

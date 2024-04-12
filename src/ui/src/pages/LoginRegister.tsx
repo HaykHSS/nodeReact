@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const LoginRegister = () => {
+  const location = useLocation();
+  const [asAdmin, setAsAdmin] = useState(false);
+
   const { login, register } = useAuth();
 
   const [userName, setUserName] = useState("");
@@ -20,11 +23,15 @@ const LoginRegister = () => {
     if (location.pathname === "/login") {
       await login(userName, password);
     } else {
-      await register(userName, password);
+      await register(userName, password, asAdmin);
     }
   };
 
-  const location = useLocation();
+  const resetInputs = () => {
+    setUserName("");
+    setPassword("");
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -39,13 +46,24 @@ const LoginRegister = () => {
         placeholder="Username"
         onChange={handleUserNameChange}
         value={userName}
+        className="border p-2 outline-none"
       />
       <input
         type="password"
         placeholder="Password"
         onChange={handlePasswordChange}
         value={password}
+        className="border p-2 outline-none"
       />
+      <label className="flex gap-2" htmlFor="adminCheckbox">
+        <span> Register as Admin</span>
+        <input
+          type="checkbox"
+          name="adminCheckbox"
+          onChange={() => setAsAdmin(!asAdmin)}
+          checked={asAdmin}
+        />
+      </label>
       {location.pathname === "/login" && (
         <button className="border p-2" type="submit">
           Login
@@ -59,12 +77,18 @@ const LoginRegister = () => {
 
       {location.pathname === "/login" && (
         <p>
-          Don't have an account? <Link to="/register">Register</Link>
+          Don't have an account?{" "}
+          <Link onClick={resetInputs} className="border p-2" to="/register">
+            Register
+          </Link>
         </p>
       )}
       {location.pathname === "/register" && (
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{" "}
+          <Link onClick={resetInputs} className="border p-2" to="/login">
+            Login
+          </Link>
         </p>
       )}
     </form>

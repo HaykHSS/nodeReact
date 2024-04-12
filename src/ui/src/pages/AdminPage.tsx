@@ -9,7 +9,6 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(userRole);
     if (userRole === "employee") {
       navigate("/employee");
     }
@@ -19,7 +18,7 @@ const AdminPage = () => {
     <div className="flex flex-col justify-around items-center h-full">
       <h1 className="text-3xl">Admin Page</h1>
       <div className="flex flex-col justify-center items-center gap-24">
-        <BuyersHistory />
+        <BuyersHistory type="admin" />
         <Products />
       </div>
     </div>

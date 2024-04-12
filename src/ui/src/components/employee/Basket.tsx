@@ -7,7 +7,7 @@ import AuthStore from "@/store/AuthStore";
 interface BasketProps {
   basketItems: Product[];
   handleDrop: (_id: string) => void;
-  removeFromBasket: (id: string) => void; // Add a method to remove an item from the basket
+  removeFromBasket: (id: string) => void;
 }
 
 const Basket: React.FC<BasketProps> = ({
@@ -42,7 +42,7 @@ const Basket: React.FC<BasketProps> = ({
         totalPrice,
       }),
     });
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (

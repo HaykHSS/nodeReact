@@ -3,7 +3,6 @@ import { IProduct } from "@/store/ProductsStore";
 import React, { useEffect, useState } from "react";
 
 const formatDate = (date: Date) => {
-  console.log(date, date instanceof Date);
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // JS months are zero-indexed
   const year = date.getFullYear();
@@ -19,7 +18,9 @@ interface IPurchase {
   iat: Date;
 }
 
-const BuyersHistory = () => {
+const BuyersHistory: React.FC<{ type: "admin" | "employee" }> = ({ type }) => {
+  const { userId } = AuthStore();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [buyersHistoryData, setBuyersHistoryData] = useState<IPurchase[]>([]);
   const [filteredData, setFilteredData] = useState<IPurchase[]>([]);
@@ -45,7 +46,7 @@ const BuyersHistory = () => {
   useEffect(() => {
     const getBuyersHistory = async () => {
       try {
-        const res = await fetch("/api/purchase", {
+        const res = await fetch(`/api/purchase/${type === "admin" ? "" : userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -56,9 +57,8 @@ const BuyersHistory = () => {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        console.log(data);
         setBuyersHistoryData(data);
-        setFilteredData(data); // Initialize filtered data
+        setFilteredData(data); 
       } catch (e) {
         console.error("Failed to fetch buyers history:", e);
       }
@@ -67,15 +67,16 @@ const BuyersHistory = () => {
     if (accessToken) {
       getBuyersHistory();
     }
-  }, [accessToken]);
+  }, [accessToken, type, userId]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   return (
-    <div className="w-[1000px] flex flex-col gap-4">
-      <h1 className="text-xl">Buyers History</h1>
+    <div className="w-full flex flex-col gap-4">
+      {type === "admin" && <h1 className="text-xl">Buyers History</h1>}
+      {type === "employee" && <h1 className="text-xl">Purchase History</h1>}
       <input
         type="text"
         placeholder="Search by username..."
@@ -86,7 +87,7 @@ const BuyersHistory = () => {
       <div className="border h-64 overflow-scroll">
         <div className="grid grid-cols-5 text-md font-semibold text-left text-gray-500">
           <div className="px-4 py-2">Id</div>
-          <div className="px-4 py-2">Username</div>
+          {type === "admin" && <div className="px-4 py-2">Username</div>}
           <div className="px-4 py-2">Products</div>
           <div className="px-4 py-2">Total Amount $</div>
           <div className="px-4 py-2">Date</div>
@@ -97,9 +98,11 @@ const BuyersHistory = () => {
             className="grid grid-cols-5 text-md text-gray-700 bg-gray-100 border-b"
           >
             <div className="px-4 py-2">{index + 1}</div>
-            <div className="px-4 py-2">{entry.username}</div>
-            <div className="px-4 py-2">
-              {entry.products.map((item: IProduct) => item.productName).join(", ")}
+            {type === "admin" && <div className="px-4 py-2">{entry.username}</div>}
+            <div className="px-4 py-2 max-w-28 overflow-scroll">
+              {entry.products
+                .map((item: IProduct) => item.productName)
+                .join(", ")}
             </div>
             <div className="px-4 py-2">${entry.totalPrice}</div>
             <div className="px-4 py-2">{formatDate(new Date(entry.iat))}</div>

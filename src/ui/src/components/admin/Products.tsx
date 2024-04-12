@@ -39,7 +39,6 @@ const Products = () => {
   };
 
   const handleAddProduct = () => {
-    console.log("Adding product:", productName, productPrice);
     try {
       fetch("/api/product", {
         method: "POST",
